@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('proveedores', function (Blueprint $table) {
             $table->id();
             $table->string('razonsocialproveedor',40)->unique();
-            $table->boolean('estadoproveedor')->default(false);
+            $table->string('estadoproveedor');
             $table->string('numerorucproveedor',20)->nullable();
+            $table->string('telefonoproveedor,8');
             $table->timestamps();
         });
     }

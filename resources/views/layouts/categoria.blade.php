@@ -2,20 +2,51 @@
 
 @section('title', 'Categorias')
 
+@section('css')
+    <style>
+        .modal {
+            display: none;
+        }
+
+        .mini-formulario {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .section {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fa-question-circle {
+            font-size: 27px;
+        }
+    </style>
+
+@stop
+
+
 @section('content_header')
-    <h1>Categorias</h1>
+    <section class="section">
+        <h1>Categorías</h1>
+        <i class="btn far fa-question-circle" title="Ayuda"></i>
+    </section>
+    <hr class="my-2" />
 @stop
 
 @section('content')
 
-<div class="container">
+<div class="card">
+    <div class="card-body">
     <!-- Formulario para crear una nueva categoría -->
     <form method="POST" action="{{ route('categoria.store') }}">
        @csrf
        
         <div class="form-group row">
            <label for="nombre">Nombre de la Categoría</label>
-           <input type="text" class="form-control @error('nombrecategoria') is-invalid @enderror"  id="nombrecategoria" name="nombrecategoria" required>
+           <input type="text" class="form-control @error('nombrecategoria') is-invalid @enderror"  id="nombrecategoria" name="nombrecategoria" required autocomplete="nombrecategoria" value="{{ old('nombrecategoria')}}" autofocus>
            @error('nombrecategoria')
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $message }}</strong>
@@ -24,7 +55,7 @@
             </div>
             <div class="form-group row">
            <label for="nombre">Tipo de la Categoría</label>
-           <input type="text" class="form-control @error('nombrecategoria') is-invalid @enderror"  id="tipocategoria" name="tipocategoria" required>
+           <input type="text" class="form-control @error('nombrecategoria') is-invalid @enderror"  id="tipocategoria" name="tipocategoria" required autocomplete="tipocategoria" value="{{ old('tipocategoria')}}" autofocus>
            @error('nombrecategoria')
            <span class="invalid-feedback" role="alert">
                <strong>{{ $message }}</strong>
@@ -33,11 +64,13 @@
         </div>
        
    
-       <button type="submit" class="btn btn-primary">Agregar</button>
+       <button type="submit" class="btn btn-primary"> <i class="fas fa-save"></i>Agregar</button>
    </form>
 </div>
-<div class="container mt-4">
-    <div class="container">
+</div>
+
+<br>
+<h2>Lista de Categorías</h2>
         <table id="categoriaTable" class="table table-bordered">
             <thead>
                 <tr>
@@ -48,17 +81,6 @@
                 </tr>
             </thead>
             <tbody>
-            {{-- @if(session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            @if(session('success'))
-                <div class="alert alert-success">
-                    {{ session('success') }}
-                </div>
-            @endif --}}
                 @foreach($categorias as $categoria)
                     <tr>
                         <td>{{$categoria->id }}</td>
@@ -93,9 +115,21 @@
             
                                         <div class="form-group">
                                             <label for="nombre">Nombre de la Categoría</label>
-                                            <input type="text" class="form-control" id="nombrecategoria" name="nombrecategoria" value="{{ $categoria->nombrecategoria }}" required>
-                                            <label for="nombre">Tipo de la Categoría</label>
-                                            <input type="text" class="form-control" id="tipocategoria" name="tipocategoria" value="{{ $categoria->tipocategoria }}" required>
+                                            <input type="text" class="form-control @error('nombrecategoriaE') is-invalid @enderror" id="nombrecategoriaE" name="nombrecategoriaE" value="{{ old('nombrecategoriaE', $categoria->nombrecategoria )}}" required autocomplete="nombrecategoriaE" autofocus>
+                                            @error('nombrecategoriaE')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror    
+                                        </div>
+                                            <div class="form-group">
+                                            <label for="tipo">Tipo de la Categoría</label>
+                                            <input type="text" class="form-control @error('tipocategoriaE') is-invalid @enderror" id="tipocategoriaE" name="tipocategoriaE" value="{{ old('tipocategoriaE', $categoria->tipocategoria )}}" required autocomplete="tipocategoriaE" autofocus>
+                                            @error('tipocategoriaE')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
                                         </div>
             
                                         <button type="submit" class="btn btn-primary btn-submit">Guardar Cambios</button>

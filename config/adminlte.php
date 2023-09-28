@@ -112,8 +112,8 @@ return [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
             'alt' => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
-            'width' => 60,
-            'height' => 60,
+            'width' => 300,
+            'height' => 300,
         ],
     ],
 
@@ -319,7 +319,7 @@ return [
         ],
         [
             'text'    => 'Panel de Control',
-            'icon'    => 'fa fa-dashboard',
+            'icon'    => 'fas fa-chalkboard-teacher	',
             'submenu' => [
                 [
                     'text' => 'Facturación',
@@ -370,7 +370,7 @@ return [
             ],
             [
                 'text' => 'Clientes',
-                'url'  => '#',
+                'route'  => 'cliente.index',
                 'icon' => 'fas fa-address-book',
             ],
                 ],
@@ -393,7 +393,7 @@ return [
                 ],
                 [
                     'text' => 'Nuevo Producto',
-                    'url'  => '#',
+                    'route'  => 'producto.index',
                     'icon' => 'fas fa-shopping-bag',
                 ],
                 [
@@ -440,11 +440,6 @@ return [
                 'text' => 'Nuevo Usuario',
                 'route'  => 'usuario.index',
                 'icon' => 'fas fa-user-plus',
-                ],
-                [
-                    'text' => 'Historial de Usuarios',
-                    'url'  => '#',
-                    'icon' => 'far fa-address-card',
                 ],
             ],
         ],
@@ -519,21 +514,21 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
                     'type' => 'css',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],
@@ -564,11 +559,11 @@ return [
             ],
         ],
         'Sweetalert2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
-                    'asset' => false,
+                    'asset' => true,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],

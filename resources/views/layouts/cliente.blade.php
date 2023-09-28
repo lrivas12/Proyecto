@@ -1,37 +1,104 @@
 @extends('layouts.index')
 @section('title', 'Clientes')
 
+@section('css')
+    <style>
+        .modal {
+            display: none;
+        }
+
+        .mini-formulario {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+
+        .section {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .fa-question-circle {
+            font-size: 27px;
+        }
+    </style>
+
+@stop
+
+
 @section('content_header')
-    <h1>Clientes</h1>
+    
+    <section class="section">
+        <h1>Clientes</h1>
+    <i class="btn far fa-question-circle" title="Ayuda"></i>
+    </section>
+    <hr class="my-2" />
 @stop
 
 @section('content')
 
-<div class="container">
+<div class="card">
+    <div class="card-body">
     <!-- Formulario para crear un nuevo Cliente -->
     <form method="POST" action="{{ route('cliente.store') }}">
        @csrf
        
        <div class="form-group">
-           <label for="nombre">Nombre del Cliente</label>
-           <input type="text" class="form-control" id="nombrecliente" name="nombrecliente" required>
-           <label for="nombre">Apellido del Cliente</label>
-           <input type="text" class="form-control" id="apellidocliente" name="apellidocliente"required>
-           <label for="nombre">Dirección del Cliente</label>
-           <input type="text" class="form-control" id="direccioncliente" name="direccioncliente" >
-           <label for="nombre">Teléfono del Cliente</label>
-           <input type="text" class="form-control" id="telefonocliente" name="telefonocliente" >
-           <label for="nombre">Correo del Cliente</label>
-           <input type="email" class="form-control" id="correocliente" name="correocliente" >
-            
+           <label for="nombre">Nombre del Cliente: </label>
+           <input type="text" class="form-control @error('nombrecliente') is-invalid @enderror" id="nombrecliente" name="nombrecliente" required autocomplete="nombrecliente" value="{{ old('nombrecliente')}}" autofocus>
+           @error('nombrecliente')
+           <span class="invalid-feedback" role="alert">
+               <strong>{{ $message }}</strong>
+           </span>
+          @enderror
         </div>
-       
-   
-       <button type="submit" class="btn btn-primary">Agregar</button>
+           <div class="form-group">
+           <label for="nombre">Apellido del Cliente: </label>
+           <input type="text" class="form-control @error('apellidocliente') is-invalid @enderror" id="apellidocliente" name="apellidocliente" required autocomplete="apellidocliente" value="{{ old('apellidocliente')}}" autofocus>
+           @error('apellidocliente')
+           <span class="invalid-feedback" role="alert">
+               <strong>{{ $message }}</strong>
+           </span>
+          @enderror
+         </div>
+           <div class="form-group">
+           <label for="nombre">Dirección del Cliente: </label>
+           <input type="text" class="form-control @error('direccioncliente') is-invalid @enderror" id="direccioncliente" name="direccioncliente" autocomplete="direccioncliente" value="{{ old('direccioncliente')}}" autofocus>
+           @error('direccioncliente')
+           <span class="invalid-feedback" role="alert">
+               <strong>{{ $message }}</strong>
+           </span>
+          @enderror
+          </div>
+           <div class="form-group">
+           <label for="nombre">Teléfono del Cliente: </label>
+           <input type="text" class="form-control @error('telefonocliente') is-invalid @enderror" id="telefonocliente" name="telefonocliente" autocomplete="telefonocliente" value="{{ old('telefonocliente')}}" autofocus>
+           @error('telefonocliente')
+           <span class="invalid-feedback" role="alert">
+               <strong>{{ $message }}</strong>
+           </span>
+          @enderror
+         </div>
+           <div class="form-group">
+           <label for="nombre">Correo Eléctronico del Cliente: </label>
+           <input type="email" class="form-control @error('correocliente') is-invalid @enderror" id="correocliente" name="correocliente" autocomplete="correocliente" value="{{ old('correocliente')}}" autofocus>
+           @error('correocliente')
+           <span class="invalid-feedback" role="alert">
+               <strong>{{ $message }}</strong>
+           </span>
+         @enderror
+        </div>   
+        <br>
+       <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Agregar</button>
    </form>
+    </div>
 </div>
-<div class="container mt-4">
-    <div class="container">
+
+<br>
+
+    <h2>Lista de Clientes</h2>
+    <div class="content">
         <table id="clienteTable" class="table table-bordered">
             <thead>
                 <tr>
@@ -89,21 +156,52 @@
             
                                         <div class="form-group">
                                             <label for="nombre">Nombre del Cliente</label>
-                                            <input type="text" class="form-control" id="nombrecliente" name="nombrecliente" value="{{ $cliente->nombrecliente }}" required>
+                                            <input type="text" class="form-control @error('nombreclienteE') is-invalid @enderror" id="nombreclienteE" name="nombreclienteE" value="{{ old('nombreclienteE', $cliente->nombrecliente )}}" required autocomplete="nombreclienteE" autofocus>
+                                            @error('nombreclienteE')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                        </div>
+                                            <div class="form-group">
                                             <label for="nombre">Apellido del Cliente</label>
-                                            <input type="text" class="form-control" id="apellidocliente" name="apellidocliente" value="{{ $cliente->apellidocliente }}" required>
+                                            <input type="text" class="form-control @error('apellidoclienteE') is-invalid @enderror" id="apellidoclienteE" name="apellidoclienteE" value="{{ old('apellidoclienteE', $cliente->apellidocliente )}}" required autocomplete="apellidoclienteE" autofocus>
+                                            @error('apellidoclienteE')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                        </div>
+                                            <div class="form-group">
                                             <label for="nombre">Dirección del Cliente</label>
-                                            <input type="text" class="form-control" id="direccioncliente" name="direccioncliente" value="{{ $cliente->direccioncliente }}" >
+                                            <input type="text" class="form-control @error('direccionclienteE') is-invalid @enderror" id="direccionclienteE" name="direccionclienteE" value="{{ old('direccionclienteE', $cliente->direccioncliente )}}" autocomplete="direccionclienteE" autofocus>
+                                            @error('direccionclienteE')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                        </div>
+                                            <div class="form-group">
                                             <label for="nombre">Teléfono del Cliente</label>
-                                            <input type="text" class="form-control" id="telefonocliente" name="telefonocliente" value="{{ $cliente->telefonocliente }}" >
+                                            <input type="text" class="form-control @error('telefonoclienteE') is-invalid @enderror" id="telefonoclienteE" name="telefonoclienteE" value="{{ old('telefonoclienteE', $cliente->telefonocliente )}}" autocomplete="telefonoclienteE" autofocus>
+                                            @error('telefonoclienteE')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                        </div>
+                                            <div class="form-group">
                                             <label for="nombre">Correo del Cliente</label>
-                                            <input type="email" class="form-control" id="correocliente" name="correocliente" value="{{ $cliente->correocliente }}" >
-                                            </div>
+                                            <input type="email" class="form-control @error('correoclienteE') is-invalid @enderror" id="correoclienteE" name="correoclienteE" value="{{ old('correoclienteE', $cliente->correocliente )}}" autocomplete="correoclienteE" autofocus>
+                                            @error('correoclienteE')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror    
+                                        </div>
             
                                         <button type="submit" class="btn btn-primary btn-submit">Guardar Cambios</button>
-                                       
-                                         
-                                        
+                                                                            
                                     </form>
                                 </div>
                                 <div class="modal-footer">
@@ -138,12 +236,9 @@
                             </div>
                         </div>
                     </div>
-                    
-                    
                 @endforeach
             </tbody>
         </table>
-    </div>
 
     
    {{--  <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -167,10 +262,8 @@
         </div>
         
     </div> --}}
-</div>
 
-@endsection
-
+    </div>
 @section('js')
 
 @if (session('success'))
@@ -256,8 +349,9 @@
     $('#clienteTable').DataTable({
         "language": {
             "url": '//cdn.datatables.net/plug-ins/1.13.6/i18n/es-ES.json', // Ruta al archivo de idioma en español
-        }
+            }
+        });
     });
-});
 </script>
+@endsection
 @endsection

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\categoria;
+use Illuminate\Support\Facades\Validator;
 
 class categoriaController extends Controller
 {
@@ -29,13 +30,30 @@ class categoriaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make ($request->all(),[
             'nombrecategoria' => 'required|string|max:255',
             'tipocategoria' => 'required|string|max:255',
-        ]);
-        categoria::Create($request->all());
 
-        return redirect()->route('categoria.index')->with('success', 'Categoria almacenada exitosamente.');
+        ]);
+
+        $customMessages =[
+    'required' => 'El Campo :atribute es Obligatorio',
+    'max' => 'El Campo :atribute no debe superar :max caracteres',
+    ];
+    
+    $validator->setCustomMessages($customMessages);
+    if($validator->fails()){
+
+
+        return redirect()->route('categoria.index') ->withErrors($validator)->withInput()->with('errorC','Error al crear la Categoria, revise e intente nuevamente.');
+   }
+   $categorias = categoria::create([
+    'nombrecategoria' => $request->input('nombrecategoria'),
+    'tipocategoria' => $request->input('tipocategoria'),
+   ]);
+
+    $categorias->save();
+    return redirect()->route('categoria.index', $categorias)->with('successC','Categoria creado con exito');
 
     }
 
@@ -63,15 +81,32 @@ class categoriaController extends Controller
     public function update(Request $request, $id)
     {
         $categorias = categoria::findOrFail($id);
-        $request->validate([
+        $validator = Validator::make ($request->all(),[
             'nombrecategoria' => 'required|string|max:255',
             'tipocategoria' => 'required|string|max:255',
+
         ]);
-        $categorias->update($request->all());
-
-        return redirect()->route('categoria.index')->With('success', 'Categoria actualizada correctamente');
-
-    }
+        $customMessages =[
+            'required' => 'El Campo :atribute es Obligatorio',
+            'max' => 'El Campo :atribute no debe superar :max caracteres',
+            ];
+        
+        $validator->setCustomMessages($customMessages);
+    
+        if($validator->fails())
+        {
+        return redirect()->route('categoria.index', $categorias->id)->withErrors($validator)->withInput()->with('error', 'Error al actualizar la categoria, revise e intente nuevamente');
+        }
+       
+        $categorias->update([
+    
+            'nombrecategoria' => $request->input('nombrecategoriaE'),
+            'tipocategoria' => $request->input('tipocategoriaE'),
+           
+        ]);
+        $categorias->save();
+        return redirect()->route('categoria.index')->with('success','Categoria actualizado con exito');  
+      }
 
     /**
      * Remove the specified resource from storage.

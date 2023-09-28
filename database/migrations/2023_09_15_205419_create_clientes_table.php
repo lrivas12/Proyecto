@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('nombrecliente');
             $table->string('apellidocliente');
             $table->string('direccioncliente');
-            $table->integer('telefonocliente');
+            $table->string('telefonocliente');
             $table->string('correocliente');
             $table->timestamps();
         });
